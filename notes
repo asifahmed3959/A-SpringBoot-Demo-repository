@@ -1,0 +1,6 @@
+Inside the POM file is the project meta data, and the dependencies.
+Resources/application properties in src is where the environment variable lies.
+Static is the place for web development.
+
+Api layer is the controller.
+Service layer mainly handles business logic.
