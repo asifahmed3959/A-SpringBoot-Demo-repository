@@ -19,22 +19,6 @@ public class DataConfig {
     @Bean
     CommandLineRunner commandLineRunner(CourseRepository courseRepository, StudentRepository studentRepository){
         return args -> {
-            Course course = new Course(
-                    "Computer Science", "CSI 101"
-            );
-
-            Course course2 = new Course(
-                    "Sociology", "SIO 101"
-            );
-
-            Course course3 = new Course(
-                    "Mathematics", "Math 101"
-            );
-
-            courseRepository.saveAll(
-                    List.of(course, course2, course3)
-            );
-
             Student mariam = new Student(
                     "Mariam", "mariam.jamal@gmail.com",
                     LocalDate.of(2000, JANUARY, 5)
@@ -55,6 +39,30 @@ public class DataConfig {
                     "olsa@gmail.com",
                     LocalDate.of(2002, JANUARY, 5)
             );
+
+
+            Course course = new Course(
+                    "Computer Science", "CSI 101", List.of()
+            );
+
+            Course course2 = new Course(
+                    "Sociology", "SIO 101", List.of()
+            );
+
+            Course course3 = new Course(
+                    "Mathematics", "Math 101", List.of()
+            );
+
+            mariam.setCourses(List.of(course, course2, course3));
+            alex.setCourses(List.of(course, course2, course3));
+
+            course2.setStudent(List.of(olsa, alex));
+            course.setStudent(List.of(olsa, alex));
+
+            courseRepository.saveAll(
+                    List.of(course, course2, course3)
+            );
+
             studentRepository.saveAll(
                     List.of(mariam, alex, rick, olsa)
             );

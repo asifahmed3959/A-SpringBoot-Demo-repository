@@ -1,6 +1,11 @@
 package com.example.demo.course;
 
+import com.example.demo.student.Student;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +25,11 @@ public class Course {
     private String name;
     private String code;
 
+
+    @JsonIgnore // Add this annotation to break the circular reference
+    @ManyToMany(mappedBy = "courses")
+    private List<Student> students = new ArrayList<>();
+
     public void setName(String name){
         this.name = name;
     }
@@ -28,17 +38,22 @@ public class Course {
         this.code = code;
     }
 
-    public Course(){}
+    // Default Constructor
+    public Course() {
 
-    public Course(Long id, String name, String code){
+    }
+
+    public Course(Long id, String name, String code, List<Student> students){
         this.id = id;
         this.name = name;
         this.code = code;
+        this.students = students;
     }
 
-    public Course(String name, String code){
+    public Course(String name, String code, List<Student> students){
         this.name = name;
         this.code = code;
+        this.students = students;
     }
 
     public String getName(){
@@ -53,12 +68,22 @@ public class Course {
         return this.id;
     }
 
+
+    public List<Student> getStudent() {
+        return students;
+    }
+
+    public void setStudent(List<Student> students) {
+        this.students = students;
+    }
+
     @Override
     public String toString(){
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +
+                ", student='" + students + '\'' +
                 '}';
     }
 }

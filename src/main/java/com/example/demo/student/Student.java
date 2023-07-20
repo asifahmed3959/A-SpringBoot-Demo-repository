@@ -1,9 +1,15 @@
 package com.example.demo.student;
 
+import com.example.demo.course.Course;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /// Using JPA to connect
 @Entity
@@ -38,6 +44,15 @@ public class Student {
         this.dob = dob;
     }
 
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private List<Course> courses = new ArrayList<>();
+
     public Student(){}
 
     public Long getId() {
@@ -65,9 +80,17 @@ public class Student {
     }
 
     public Integer getAge() {
-
         return Period.between(dob, LocalDate.now()).getYears();
     }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
 
     @Override
     public String toString() {
@@ -77,6 +100,7 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", dob=" + dob +
                 ", age=" + age +
+                ", courses=" + courses +
                 '}';
     }
 }
